@@ -4,6 +4,7 @@ import Nav from "./components/Nav";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Booking from "./components/Booking";
+import Account from "./components/Account";
 import * as firebase from "firebase";
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
   const userRoutes = (
     <>
       <Route path="/booking" component={Booking} />
+      <Route path="/account" component={Account} />
     </>
   );
   let routes = null;
