@@ -1,174 +1,25 @@
-import React from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { Calendar, dateFnsLocalizer, Views } from "react-big-calendar";
 import format from "date-fns/format";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
 import getDay from "date-fns/getDay";
+import Check from "@kiwicom/orbit-components/lib/icons/Check";
+import CallOutBanner from "@kiwicom/orbit-components/lib/CallOutBanner";
+import Illustration from "@kiwicom/orbit-components/lib/Illustration";
+import List from "@kiwicom/orbit-components/lib/List";
+import ListItem from "@kiwicom/orbit-components/lib/List/ListItem";
+import Select from "@kiwicom/orbit-components/lib/Select";
+import Button from "@kiwicom/orbit-components/lib/Button";
+
+import * as firebase from "firebase";
+
 import "react-big-calendar/lib/css/react-big-calendar.css";
 const locales = {
   "en-US": require("date-fns/locale/en-US"),
 };
 
-export const events = [
-  {
-    id: 0,
-    title: "All Day Event very long title",
-    allDay: true,
-    start: new Date(2015, 3, 0),
-    end: new Date(2015, 3, 1),
-  },
-  {
-    id: 1,
-    title: "Long Event",
-    start: new Date(2015, 3, 7),
-    end: new Date(2015, 3, 10),
-  },
-
-  {
-    id: 2,
-    title: "DTS STARTS",
-    start: new Date(2016, 2, 13, 0, 0, 0),
-    end: new Date(2016, 2, 20, 0, 0, 0),
-  },
-
-  {
-    id: 3,
-    title: "DTS ENDS",
-    start: new Date(2016, 10, 6, 0, 0, 0),
-    end: new Date(2016, 10, 13, 0, 0, 0),
-  },
-
-  {
-    id: 4,
-    title: "Some Event",
-    start: new Date(2015, 3, 9, 0, 0, 0),
-    end: new Date(2015, 3, 10, 0, 0, 0),
-  },
-  {
-    id: 5,
-    title: "Conference",
-    start: new Date(2015, 3, 11),
-    end: new Date(2015, 3, 13),
-    desc: "Big conference for important people",
-  },
-  {
-    id: 6,
-    title: "Meeting",
-    start: new Date(2015, 3, 12, 10, 30, 0, 0),
-    end: new Date(2015, 3, 12, 12, 30, 0, 0),
-    desc: "Pre-meeting meeting, to prepare for the meeting",
-  },
-  {
-    id: 7,
-    title: "Lunch",
-    start: new Date(2015, 3, 12, 12, 0, 0, 0),
-    end: new Date(2015, 3, 12, 13, 0, 0, 0),
-    desc: "Power lunch",
-  },
-  {
-    id: 8,
-    title: "Meeting",
-    start: new Date(2015, 3, 12, 14, 0, 0, 0),
-    end: new Date(2015, 3, 12, 15, 0, 0, 0),
-  },
-  {
-    id: 9,
-    title: "Happy Hour",
-    start: new Date(2015, 3, 12, 17, 0, 0, 0),
-    end: new Date(2015, 3, 12, 17, 30, 0, 0),
-    desc: "Most important meal of the day",
-  },
-  {
-    id: 10,
-    title: "Dinner",
-    start: new Date(2015, 3, 12, 20, 0, 0, 0),
-    end: new Date(2015, 3, 12, 21, 0, 0, 0),
-  },
-  {
-    id: 11,
-    title: "Birthday Party",
-    start: new Date(2015, 3, 13, 7, 0, 0),
-    end: new Date(2015, 3, 13, 10, 30, 0),
-  },
-  {
-    id: 12,
-    title: "Late Night Event",
-    start: new Date(2015, 3, 17, 19, 30, 0),
-    end: new Date(2015, 3, 18, 2, 0, 0),
-  },
-  {
-    id: 12.5,
-    title: "Late Same Night Event",
-    start: new Date(2015, 3, 17, 19, 30, 0),
-    end: new Date(2015, 3, 17, 23, 30, 0),
-  },
-  {
-    id: 13,
-    title: "Multi-day Event",
-    start: new Date(2015, 3, 20, 19, 30, 0),
-    end: new Date(2015, 3, 22, 2, 0, 0),
-  },
-  {
-    id: 14,
-    title: "Today",
-    start: new Date(new Date().setHours(new Date().getHours() - 3)),
-    end: new Date(new Date().setHours(new Date().getHours() + 3)),
-  },
-  {
-    id: 15,
-    title: "Point in Time Event",
-    start: new Date(),
-    end: new Date(),
-  },
-  {
-    id: 16,
-    title: "Video Record",
-    start: new Date(2015, 3, 14, 15, 30, 0),
-    end: new Date(2015, 3, 14, 19, 0, 0),
-  },
-  {
-    id: 17,
-    title: "Dutch Song Producing",
-    start: new Date(2015, 3, 14, 16, 30, 0),
-    end: new Date(2015, 3, 14, 20, 0, 0),
-  },
-  {
-    id: 18,
-    title: "Itaewon Halloween Meeting",
-    start: new Date(2015, 3, 14, 16, 30, 0),
-    end: new Date(2015, 3, 14, 17, 30, 0),
-  },
-  {
-    id: 19,
-    title: "Online Coding Test",
-    start: new Date(2015, 3, 14, 17, 30, 0),
-    end: new Date(2015, 3, 14, 20, 30, 0),
-  },
-  {
-    id: 20,
-    title: "An overlapped Event",
-    start: new Date(2015, 3, 14, 17, 0, 0),
-    end: new Date(2015, 3, 14, 18, 30, 0),
-  },
-  {
-    id: 21,
-    title: "Phone Interview",
-    start: new Date(2015, 3, 14, 17, 0, 0),
-    end: new Date(2015, 3, 14, 18, 30, 0),
-  },
-  {
-    id: 22,
-    title: "Cooking Class",
-    start: new Date(2015, 3, 14, 17, 30, 0),
-    end: new Date(2015, 3, 14, 19, 0, 0),
-  },
-  {
-    id: 23,
-    title: "Go to the gym",
-    start: new Date(2015, 3, 14, 18, 30, 0),
-    end: new Date(2015, 3, 14, 20, 0, 0),
-  },
-];
+export const events = [];
 
 const localizer = dateFnsLocalizer({
   format,
@@ -179,21 +30,92 @@ const localizer = dateFnsLocalizer({
 });
 
 const Booking = () => {
+  const [times, setTimes] = useState({});
+
+  const [derivedTimes, setDerivedTimes] = useState([]);
+
+  const [services, setServices] = useState([]);
+
+  const db = firebase.firestore();
+
+  const onSelect = (eventData) => {
+    const slots = eventData.slots ?? [];
+    if (slots.length === 2) {
+      setTimes({
+        id: JSON.stringify(slots[0]) + JSON.stringify(slots[1]),
+        title: "",
+        start: slots[0],
+        end: slots[1],
+      });
+    }
+  };
+
+  const newTimes = JSON.parse(JSON.stringify(derivedTimes));
+  newTimes.push(times);
+
+  useLayoutEffect(() => {
+    db.collection("services")
+      .get()
+      .then((services) => {
+        const servicesData = services.docs.map((doc) => doc.data());
+        console.log(servicesData);
+        setServices(servicesData);
+      });
+    db.collection("bookings")
+      .get()
+      .then((bookings) => {
+        const bookingsData = bookings.docs.map((doc) => doc.data());
+        console.log(bookingsData);
+      });
+  }, []);
   return (
     <div>
       <Calendar
+        step={60}
+        timeslots={1}
+        min={new Date(0, 0, 0, 9, 0, 0)}
+        max={new Date(0, 0, 0, 17, 0, 0)}
         selectable
         localizer={localizer}
-        events={events}
+        events={newTimes}
         defaultView={Views.WEEK}
         scrollToTime={new Date(1970, 1, 1, 6)}
-        defaultDate={new Date(2015, 3, 12)}
+        defaultDate={new Date()}
         onSelectEvent={(event) => alert(event.title)}
         style={{ height: 500 }}
-        onSelectSlot={(...a) => {
-          console.log(a);
-        }}
+        onSelectSlot={onSelect}
       />
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          flexDirection: "row",
+          marginTop: 20,
+        }}
+      >
+        <CallOutBanner
+          dataTest="test"
+          description="Select your if you would like a Hair Cut, Hair Wash & Dry or a Hair Colouring"
+          illustration={<Illustration name="EnjoyApp" size="small" />}
+          title="Make a booking"
+        >
+          <List type="secondary">
+            <ListItem icon={<Check color="success" />}>
+              Cheap service fees
+            </ListItem>
+            <ListItem icon={<Check color="success" />}>
+              Best quality products only
+            </ListItem>
+          </List>
+          <Select
+            options={services.map((data) => {
+              return { label: data.name + "  $" + data.price, id: data.name };
+            })}
+          />
+          <Button>Make Booking</Button>
+        </CallOutBanner>
+      </div>
     </div>
   );
 };

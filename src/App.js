@@ -5,6 +5,7 @@ import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Booking from "./components/Booking";
 import Account from "./components/Account";
+import Admin from "./components/Admin";
 import * as firebase from "firebase";
 
 function App() {
@@ -23,7 +24,7 @@ function App() {
     });
   }, []);
 
-  const adminRoutes = <></>;
+  const adminRoutes = <Route path="/admin" component={Admin} />;
   const userRoutes = (
     <>
       <Route path="/booking" component={Booking} />
