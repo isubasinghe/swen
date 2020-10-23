@@ -6,7 +6,6 @@ import TableRow from "@kiwicom/orbit-components/lib/Table/TableRow";
 import TableBody from "@kiwicom/orbit-components/lib/Table/TableBody";
 import Card from "@kiwicom/orbit-components/lib/Card";
 import CardSection from "@kiwicom/orbit-components/lib/Card/CardSection";
-import styled from "styled-components";
 import InputField from "@kiwicom/orbit-components/lib/InputField";
 import Layout from "@kiwicom/orbit-components/lib/Layout";
 import LayoutColumn from "@kiwicom/orbit-components/lib/Layout/LayoutColumn";
@@ -58,9 +57,29 @@ const Admin = () => {
       });
   }, []);
 
-  const save = (field, value) => {
-    db.collection("users").where("name", "==", "field");
+  const idMapper = {
+    HC: "FNG4MS4zV3V4S2jbodqe",
+    HW: "FNG4MS4zV3V4S2jbodqe",
+    C: "FNG4MS4zV3V4S2jbodqe",
   };
+
+  const valuesMapper = { HC: hairCut, HW: wash, C: colour };
+
+  const save = (field) => {
+    db.collection("services")
+      .doc(idMapper[field])
+      .update({
+        price: valuesMapper[field].price,
+        enabled: valuesMapper[field].enabled,
+      })
+      .then((val) => {
+        alert("Saved value");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <Layout type="Booking">
       <LayoutColumn>
@@ -134,7 +153,13 @@ const Admin = () => {
             ></CheckBox>
           </CardSection>
           <CardSection>
-            <Button>Save</Button>
+            <Button
+              onClick={() => {
+                save("HC");
+              }}
+            >
+              Save
+            </Button>
           </CardSection>
         </Card>
         <div style={{ marginTop: 20 }}>
@@ -166,7 +191,13 @@ const Admin = () => {
               ></CheckBox>
             </CardSection>
             <CardSection>
-              <Button>Save</Button>
+              <Button
+                onClick={() => {
+                  save("HW");
+                }}
+              >
+                Save
+              </Button>
             </CardSection>
           </Card>
         </div>
@@ -199,7 +230,13 @@ const Admin = () => {
               ></CheckBox>
             </CardSection>
             <CardSection>
-              <Button>Save</Button>
+              <Button
+                onClick={() => {
+                  save("C");
+                }}
+              >
+                Save
+              </Button>
             </CardSection>
           </Card>
         </div>
