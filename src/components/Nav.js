@@ -103,7 +103,7 @@ const Nav = ({ status, routes }) => {
                 Make a booking
               </TextLink>
             )}
-            <TextLink
+            {/* <TextLink
               onClick={() => {
                 history.push("/staff");
               }}
@@ -118,7 +118,7 @@ const Nav = ({ status, routes }) => {
               }}
             >
               Products
-            </TextLink>
+            </TextLink> */}
           </LinkList>
           <Stack direction="row" justify="end" shrink spacing="tight">
             {render}
