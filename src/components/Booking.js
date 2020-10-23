@@ -169,9 +169,11 @@ const Booking = () => {
             onChange={(eve) => {
               setService(eve.target.value);
             }}
-            options={services.map((data) => {
-              return { label: data.name + "  $" + data.price, id: data.name };
-            })}
+            options={services
+              .filter((data) => data.enabled)
+              .map((data) => {
+                return { label: data.name + "  $" + data.price, id: data.name };
+              })}
             value={service}
           />
           <Button onClick={onSubmit}>Make Booking</Button>
