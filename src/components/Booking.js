@@ -30,13 +30,25 @@ const localizer = dateFnsLocalizer({
 });
 
 const Booking = () => {
-  const [times, setTimes] = useState({});
+  const [times, setTimes] = useState(null);
 
   const [derivedTimes, setDerivedTimes] = useState([]);
 
   const [services, setServices] = useState([]);
-
+  const [service, setService] = useState("");
   const db = firebase.firestore();
+
+  let serviceDB = service.split("$")[0].trim();
+
+  const events = derivedTimes.map((doc) => {
+    const start = doc.start.toDate();
+    const end = doc.end.toDate();
+    return {
+      start,
+      end,
+      id: JSON.stringify(start) + JSON.stringify(end),
+    };
+  });
 
   const onSelect = (eventData) => {
     const slots = eventData.slots ?? [];
@@ -50,24 +62,70 @@ const Booking = () => {
     }
   };
 
-  const newTimes = JSON.parse(JSON.stringify(derivedTimes));
-  newTimes.push(times);
+  const onSubmit = () => {
+    const pastEvents = derivedTimes.map((doc) => {
+      const start = doc.start.toDate();
+      const end = doc.end.toDate();
+      return {
+        start,
+        end,
+        id: JSON.stringify(start) + JSON.stringify(end),
+      };
+    });
+
+    if (pastEvents.some((doc) => doc.id === times.id)) {
+      alert("There is a booking at this time slot already");
+      window.location.reload();
+      return;
+    }
+
+    const uid = firebase.auth().currentUser.uid;
+
+    console.log(times);
+    console.log(serviceDB);
+    const ref = db.collection("users").doc(uid);
+    db.collection("bookings")
+      .doc(times.id)
+      .set({
+        start: times.start,
+        end: times.end,
+        user: ref,
+        name: serviceDB,
+      })
+      .then((entry) => {
+        alert("Booking was made!");
+        window.location.href = "/";
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   useLayoutEffect(() => {
     db.collection("services")
       .get()
       .then((services) => {
         const servicesData = services.docs.map((doc) => doc.data());
-        console.log(servicesData);
+
         setServices(servicesData);
+        if (servicesData.length > 0) {
+          setService(servicesData[0].name + " $" + servicesData[0].price);
+        } else {
+          setService("No data available");
+        }
       });
     db.collection("bookings")
       .get()
       .then((bookings) => {
         const bookingsData = bookings.docs.map((doc) => doc.data());
-        console.log(bookingsData);
+        setDerivedTimes(bookingsData);
       });
   }, []);
+
+  if (times !== null) {
+    events.push(times);
+  }
+
   return (
     <div>
       <Calendar
@@ -77,11 +135,10 @@ const Booking = () => {
         max={new Date(0, 0, 0, 17, 0, 0)}
         selectable
         localizer={localizer}
-        events={newTimes}
+        events={events}
         defaultView={Views.WEEK}
         scrollToTime={new Date(1970, 1, 1, 6)}
         defaultDate={new Date()}
-        onSelectEvent={(event) => alert(event.title)}
         style={{ height: 500 }}
         onSelectSlot={onSelect}
       />
@@ -109,11 +166,15 @@ const Booking = () => {
             </ListItem>
           </List>
           <Select
+            onChange={(eve) => {
+              setService(eve.target.value);
+            }}
             options={services.map((data) => {
               return { label: data.name + "  $" + data.price, id: data.name };
             })}
+            value={service}
           />
-          <Button>Make Booking</Button>
+          <Button onClick={onSubmit}>Make Booking</Button>
         </CallOutBanner>
       </div>
     </div>
