@@ -99,6 +99,12 @@ const Admin = () => {
                 Service
               </TableCell>
               <TableCell as="th" scope="col">
+                Biller Name
+              </TableCell>
+              <TableCell as="th" scope="col">
+                Biller Email
+              </TableCell>
+              <TableCell as="th" scope="col">
                 Start Time
               </TableCell>
               <TableCell as="th" scope="col">
@@ -116,6 +122,8 @@ const Admin = () => {
                   <TableCell>{booking.phone}</TableCell>
                   <TableCell>{booking.address}</TableCell>
                   <TableCell>{booking.name}</TableCell>
+                  <TableCell>{booking.invoiceName}</TableCell>
+                  <TableCell>{booking.billerEmail}</TableCell>
                   <TableCell>{startDate}</TableCell>
                   <TableCell>{endDate}</TableCell>
                 </TableRow>

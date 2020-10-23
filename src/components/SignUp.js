@@ -17,7 +17,8 @@ const SignUp = () => {
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [extraInfo, setExtraInfo] = useState("");
-
+  const [invoiceName, setInvoiceName] = useState("");
+  const [billerEmail, setBillerEmail] = useState("");
   const db = firebase.firestore();
   const onSubmit = () => {
     firebase
@@ -95,6 +96,22 @@ const SignUp = () => {
             placeholder="Extra Info"
             onChange={(ev) => setExtraInfo(ev.target.value)}
             value={extraInfo}
+          />
+        </CardSection>
+        <CardSection>
+          <InputField
+            label="Biller Name"
+            placeholder="Biller Name"
+            onChange={(ev) => setInvoiceName(ev.target.value)}
+            value={invoiceName}
+          />
+        </CardSection>
+        <CardSection>
+          <InputField
+            label="Biller Email"
+            placeholder="Biller Email"
+            onChange={(ev) => setBillerEmail(ev.target.value)}
+            value={billerEmail}
           />
         </CardSection>
         <CardSection>

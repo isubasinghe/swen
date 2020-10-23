@@ -16,11 +16,17 @@ const Account = () => {
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [extraInfo, setExtraInfo] = useState("");
-
+  const [invoiceName, setInvoiceName] = useState("");
+  const [billerEmail, setBillerEmail] = useState("");
   const db = firebase.firestore();
   const onSubmit = () => {
     const uid = firebase.auth().currentUser.uid;
-    db.collection("users").doc(uid).set({ name, address, phone, extraInfo });
+    db.collection("users")
+      .doc(uid)
+      .set({ name, address, phone, extraInfo, invoiceName, billerEmail })
+      .then(() => {
+        alert("Updated values");
+      });
   };
 
   useLayoutEffect(() => {
@@ -29,11 +35,20 @@ const Account = () => {
       .doc(uid)
       .get()
       .then((user) => {
-        const { name, address, phone, extraInfo } = user.data();
+        const {
+          name,
+          address,
+          phone,
+          extraInfo,
+          invoiceName,
+          billerEmail,
+        } = user.data();
         setName(name);
         setAddress(address);
         setPhone(phone);
         setExtraInfo(extraInfo);
+        setInvoiceName(invoiceName);
+        setBillerEmail(billerEmail);
       });
   }, []);
   return (
@@ -73,6 +88,22 @@ const Account = () => {
             placeholder="Extra Info"
             onChange={(ev) => setExtraInfo(ev.target.value)}
             value={extraInfo}
+          />
+        </CardSection>
+        <CardSection>
+          <InputField
+            label="Biller Name"
+            placeholder="Biller Name"
+            onChange={(ev) => setInvoiceName(ev.target.value)}
+            value={invoiceName}
+          />
+        </CardSection>
+        <CardSection>
+          <InputField
+            label="Biller Email"
+            placeholder="Biller Email"
+            onChange={(ev) => setBillerEmail(ev.target.value)}
+            value={billerEmail}
           />
         </CardSection>
         <CardSection>
