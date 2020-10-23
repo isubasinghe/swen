@@ -6,13 +6,14 @@ import SignUp from "./components/SignUp";
 import Booking from "./components/Booking";
 import Account from "./components/Account";
 import Admin from "./components/Admin";
+import Home from "./components/Home";
 import * as firebase from "firebase";
 
 function App() {
   const normalRoutes = (
     <>
-      <Route path="/login" component={Login} />
-      <Route path="/signup" component={SignUp} />
+      <Route exact path="/login" component={Login} />
+      <Route exact path="/signup" component={SignUp} />
     </>
   );
 
@@ -24,11 +25,15 @@ function App() {
     });
   }, []);
 
-  const adminRoutes = <Route path="/admin" component={Admin} />;
+  const adminRoutes = (
+    <>
+      <Route exact path="/admin" component={Admin} />
+    </>
+  );
   const userRoutes = (
     <>
-      <Route path="/booking" component={Booking} />
-      <Route path="/account" component={Account} />
+      <Route exact path="/booking" component={Booking} />
+      <Route exact path="/account" component={Account} />
     </>
   );
   let routes = null;
@@ -47,7 +52,10 @@ function App() {
     <div>
       <Router>
         <Nav status={status} />
-        <div style={{ marginTop: 100 }}>{routes}</div>
+        <div style={{ marginTop: 100 }}>
+          <Route exact path="/" component={Home} />
+          {routes}
+        </div>
       </Router>
     </div>
   );

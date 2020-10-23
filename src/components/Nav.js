@@ -85,7 +85,14 @@ const Nav = ({ status, routes }) => {
       <NavigationBar dataTest="test">
         <Stack align="center" flex justify="between" spacing="none">
           <LinkList direction="row">
-            <TextLink type="secondary">Home</TextLink>
+            <TextLink
+              type="secondary"
+              onClick={() => {
+                history.push("/");
+              }}
+            >
+              Home
+            </TextLink>
             {status === "CLIENT" && (
               <TextLink
                 onClick={() => {
@@ -96,8 +103,22 @@ const Nav = ({ status, routes }) => {
                 Make a booking
               </TextLink>
             )}
-            <TextLink type="secondary">Our Staff</TextLink>
-            <TextLink type="secondary">Products</TextLink>
+            <TextLink
+              onClick={() => {
+                history.push("/staff");
+              }}
+              type="secondary"
+            >
+              Our Staff
+            </TextLink>
+            <TextLink
+              type="secondary"
+              onClick={() => {
+                history.push("/products");
+              }}
+            >
+              Products
+            </TextLink>
           </LinkList>
           <Stack direction="row" justify="end" shrink spacing="tight">
             {render}
