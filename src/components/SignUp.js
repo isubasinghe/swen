@@ -10,7 +10,7 @@ const Container = styled.div`
   margin: 0 auto;
   max-width: 50rem;
 `;
-const SignUp = () => {
+const SignUp = ({ history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -30,10 +30,12 @@ const SignUp = () => {
           address,
           phone,
           extraInfo,
+          invoiceName,
+          billerEmail,
         });
       })
       .then((doc) => {
-        console.log(doc);
+        history.push("/");
       })
       .catch((err) => {
         console.log(err);

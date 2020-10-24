@@ -10,7 +10,7 @@ const Container = styled.div`
   margin: 0 auto;
   max-width: 50rem;
 `;
-const Login = () => {
+const Login = ({ history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -19,7 +19,7 @@ const Login = () => {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then((user) => {
-        console.log(user);
+        history.push("/");
       })
       .catch((error) => {
         console.log(error);
