@@ -29,7 +29,7 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-const Booking = () => {
+const Booking = ({history}) => {
   const [times, setTimes] = useState(null);
 
   const [derivedTimes, setDerivedTimes] = useState([]);
@@ -92,7 +92,7 @@ const Booking = () => {
       })
       .then((entry) => {
         alert("Booking was made!");
-        window.location.href = "/";
+        history.go(0);
       })
       .catch((err) => {
         console.log(err);
@@ -125,6 +125,16 @@ const Booking = () => {
     events.push(times);
   }
 
+  const deleteItem = (data) => {
+    db.collection("bookings").doc(data.id).delete().then(() => {
+      alert("Deleted booking");
+      history.go(0);
+    }).catch((err) => {
+      console.log(err);
+      alert("Error couldn't delete");
+    })
+  }
+
   return (
     <div>
       <Calendar
@@ -139,9 +149,7 @@ const Booking = () => {
         scrollToTime={new Date(1970, 1, 1, 6)}
         defaultDate={new Date()}
         style={{ height: 500 }}
-        onSelectEvent={(ev) => {
-          console.log(ev);
-        }}
+        onSelectEvent={deleteItem}
         onSelectSlot={onSelect}
       />
 
