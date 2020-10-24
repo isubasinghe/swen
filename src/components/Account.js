@@ -108,7 +108,7 @@ const Account = () => {
         </CardSection>
         <CardSection>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <Button onClick={onSubmit}>Submit</Button>
+            <Button onClick={onSubmit}>Save</Button>
           </div>
         </CardSection>
       </Card>
