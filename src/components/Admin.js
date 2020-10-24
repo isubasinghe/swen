@@ -13,7 +13,7 @@ import Button from "@kiwicom/orbit-components/lib/Button";
 import CheckBox from "@kiwicom/orbit-components/lib/Checkbox";
 
 import { format } from "date-fns";
-import * as firebase from "firebase";
+import firebase from "firebase/app";
 
 const Admin = () => {
   const db = firebase.firestore();
@@ -55,6 +55,7 @@ const Admin = () => {
           setter({ enabled: newData.enabled, price: newData.price });
         });
       });
+    // eslint-disable-next-line
   }, []);
 
   const idMapper = {

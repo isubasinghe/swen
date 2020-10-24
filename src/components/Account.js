@@ -4,7 +4,7 @@ import CardSection from "@kiwicom/orbit-components/lib/Card/CardSection";
 import InputField from "@kiwicom/orbit-components/lib/InputField";
 import Button from "@kiwicom/orbit-components/lib/Button";
 import styled from "styled-components";
-import * as firebase from "firebase";
+import firebase from "firebase/app";
 
 const Container = styled.div`
   margin: 0 auto;
@@ -50,6 +50,7 @@ const Account = () => {
         setInvoiceName(invoiceName);
         setBillerEmail(billerEmail);
       });
+    // eslint-disable-next-line
   }, []);
   return (
     <Container>

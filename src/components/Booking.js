@@ -12,7 +12,7 @@ import ListItem from "@kiwicom/orbit-components/lib/List/ListItem";
 import Select from "@kiwicom/orbit-components/lib/Select";
 import Button from "@kiwicom/orbit-components/lib/Button";
 
-import * as firebase from "firebase";
+import firebase from "firebase/app";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
 const locales = {
@@ -81,8 +81,6 @@ const Booking = () => {
 
     const uid = firebase.auth().currentUser.uid;
 
-    console.log(times);
-    console.log(serviceDB);
     const ref = db.collection("users").doc(uid);
     db.collection("bookings")
       .doc(times.id)
@@ -120,6 +118,7 @@ const Booking = () => {
         const bookingsData = bookings.docs.map((doc) => doc.data());
         setDerivedTimes(bookingsData);
       });
+    // eslint-disable-next-line
   }, []);
 
   if (times !== null) {
@@ -140,6 +139,9 @@ const Booking = () => {
         scrollToTime={new Date(1970, 1, 1, 6)}
         defaultDate={new Date()}
         style={{ height: 500 }}
+        onSelectEvent={(ev) => {
+          console.log(ev);
+        }}
         onSelectSlot={onSelect}
       />
 

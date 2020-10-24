@@ -1,5 +1,4 @@
 import React from "react";
-import Layout from "@kiwicom/orbit-components/lib/Layout";
 import PictureCard from "@kiwicom/orbit-components/lib/PictureCard";
 import Heading from "@kiwicom/orbit-components/lib/Heading";
 import Text from "@kiwicom/orbit-components/lib/Text";

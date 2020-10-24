@@ -5,7 +5,7 @@ import Stack from "@kiwicom/orbit-components/lib/Stack";
 import TextLink from "@kiwicom/orbit-components/lib/TextLink";
 import LinkList from "@kiwicom/orbit-components/lib/LinkList";
 import ButtonLink from "@kiwicom/orbit-components/lib/ButtonLink";
-import * as firebase from "firebase";
+import firebase from "firebase/app";
 
 const Nav = ({ status, routes }) => {
   const history = useHistory();

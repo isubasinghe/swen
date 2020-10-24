@@ -7,7 +7,7 @@ import Booking from "./components/Booking";
 import Account from "./components/Account";
 import Admin from "./components/Admin";
 import Home from "./components/Home";
-import * as firebase from "firebase";
+import firebase from "firebase/app";
 
 function App() {
   const normalRoutes = (
@@ -47,7 +47,6 @@ function App() {
     routes = userRoutes;
     status = "CLIENT";
   }
-  console.log(firebase.auth().currentUser);
   return (
     <div>
       <Router>
