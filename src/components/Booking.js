@@ -75,7 +75,7 @@ const Booking = ({history}) => {
 
     if (pastEvents.some((doc) => doc.id === times.id)) {
       alert("There is a booking at this time slot already");
-      window.location.reload();
+      history.go(0);
       return;
     }
 
