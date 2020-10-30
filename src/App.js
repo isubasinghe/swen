@@ -40,7 +40,7 @@ function App() {
   let status = "";
   if (user === null) {
     routes = normalRoutes;
-  } else if (user.uid === "IK5TRvSZ7vSdDgY3ojGZq3dpV1F3") {
+  } else if (user.uid === "MG3dWDDsjEeKvLddPLUAQyYJuKq2") {
     routes = adminRoutes;
     status = "ADMIN";
   } else {
